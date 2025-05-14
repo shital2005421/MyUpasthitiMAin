@@ -14,6 +14,12 @@ services:
       - mysql
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:5000/health"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
 
   mysql:
     image: mysql:5.7
@@ -26,6 +32,13 @@ services:
       - mysql_data:/var/lib/mysql
     networks:
       - my-network
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 30s
+      retries: 3
+      start_period: 30s
+      timeout: 10s
+    command: --innodb_force_recovery=1  # Added force recovery flag for MySQL
 
 volumes:
   mysql_data:
