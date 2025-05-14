@@ -80,6 +80,11 @@ def index():
     current_time = datetime.now().strftime("%H:%M")  # Format time as HH:MM
     return render_template("index.html")
 
+@app.route('/health')
+def health():
+    return 'Healthy', 200
+
+
 @app.route('/debug')
 def debug():
     return {
