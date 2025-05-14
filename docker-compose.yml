@@ -1,17 +1,34 @@
+version: '3.9'
+
 services:
   my-app:
     build: .
     ports:
       - "5000:5000"
     environment:
-      - ENV=production
+      - MYSQL_HOST=mysql
+      - MYSQL_USER=root
+      - MYSQL_PASSWORD=jtWpCSmMekhsacaTsfQrEahRPSsfVPaY
+      - MYSQL_DB=railway
     depends_on:
       - mysql
+    networks:
+      - my-network
 
   mysql:
     image: mysql:5.7
     environment:
       MYSQL_ROOT_PASSWORD: jtWpCSmMekhsacaTsfQrEahRPSsfVPaY
       MYSQL_DATABASE: railway
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
     networks:
       - my-network
+
+volumes:
+  mysql_data:
+
+networks:
+  my-network:
